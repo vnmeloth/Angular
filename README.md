@@ -1,6 +1,6 @@
 # Angular
 Angular Interview Questions
-
+## 1. What is the difference between pure and impure pipe?
 In the context of Angular, pipes are used to transform data in templates. Pipes can be classified into two types: pure and impure. The primary difference between pure and impure pipes lies in how and when they trigger change detection and update their output.
 
 ### Pure Pipes
