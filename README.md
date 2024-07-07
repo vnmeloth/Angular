@@ -59,3 +59,62 @@ export class ImpurePipe implements PipeTransform {
 **Key Difference:**
 - **Pure Pipe:** Only re-evaluated when the input reference changes, leading to better performance.
 - **Impure Pipe:** Re-evaluated on every change detection cycle, useful for more complex transformations but can impact performance.
+
+## 2. Chaining Pipes
+In Angular, you can chain pipes by applying multiple pipes in sequence within the template. Each pipe takes the output of the previous pipe as its input. This allows you to perform multiple transformations on the data in a readable and concise manner.
+
+### Syntax
+To chain pipes, you use the pipe character (`|`) between each pipe.
+
+### Example
+Let's say you have a string that you want to transform in several ways: convert it to uppercase, then slice a portion of it, and finally format it.
+
+**Template:**
+```html
+<!-- Assuming 'message' is a string variable in your component -->
+{{ message | uppercase | slice:0:5 }}
+```
+
+**Explanation:**
+1. **Uppercase Pipe (`uppercase`):** Converts the entire string to uppercase.
+2. **Slice Pipe (`slice:0:5`):** Extracts a substring from index 0 to 5.
+
+### More Complex Example
+Consider a scenario where you have a date that you want to format and then apply a custom pipe to further transform it.
+
+**Component:**
+```typescript
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  template: `
+    <p>{{ today | date:'fullDate' | customDatePipe }}</p>
+  `
+})
+export class AppComponent {
+  today: number = Date.now();
+}
+```
+
+**Custom Pipe:**
+```typescript
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'customDatePipe'
+})
+export class CustomDatePipe implements PipeTransform {
+  transform(value: string, ...args: any[]): string {
+    // Custom transformation logic here
+    return `Transformed Date: ${value}`;
+  }
+}
+```
+
+**Explanation:**
+1. **Date Pipe (`date:'fullDate'`):** Formats the date to a full date string (e.g., "Wednesday, July 7, 2023").
+2. **Custom Pipe (`customDatePipe`):** Further transforms the formatted date string as defined in the custom pipe logic.
+
+### Summary
+Chaining pipes in Angular is a powerful way to apply multiple transformations to data in a template. By separating concerns into individual pipes, you can create reusable and composable transformations that keep your templates clean and easy to understand.
